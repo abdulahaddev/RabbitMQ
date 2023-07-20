@@ -8,6 +8,8 @@ namespace RMQClient
     {
         public static void Consume(IModel channel)
         {
+            //channel.ExchangeDeclare("hello-direct-exchange", ExchangeType.Direct, arguments: null);
+
             channel.QueueDeclare(queue: "hello-direct-queue",
                     durable: true,
                     exclusive: false,
@@ -16,21 +18,19 @@ namespace RMQClient
 
             channel.QueueBind("hello-direct-queue", "hello-direct-exchange", "key-direct-route");  
 
-            channel.BasicQos(0, 10, false);
-
             var consumer = new EventingBasicConsumer(channel);
 
             consumer.Received += (sender, e) =>
             {
                 var body = e.Body.ToArray();
                 var message = Encoding.UTF8.GetString(body);
-                channel.BasicAck(e.DeliveryTag, multiple: false);
+                //channel.BasicAck(e.DeliveryTag, multiple: false);
 
                 Console.WriteLine($"C-1 -> Message = {message}");                
             };
 
             channel.BasicConsume(queue: "hello-direct-queue",
-                                autoAck: false,
+                                autoAck: true,
                                 consumer: consumer);
 
             Console.ReadLine();

@@ -11,7 +11,7 @@ namespace RMQClient
             using var connection = factory.CreateConnection();
             using var channel = connection.CreateModel();
 
-            DLXConsumer.Consume(channel);
+            TopicExchangeConsumer.Consume(channel);
 
             Console.ReadKey();
         }

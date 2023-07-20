@@ -18,7 +18,7 @@ namespace RMQServer
             channel.ExchangeDeclare("hello-direct-exchange", ExchangeType.Direct, arguments : args);          
 
             int counter = 0;
-            while (counter <= 400)
+            while (true)
             {
                 var message = new { Name = "Ahad", Count = counter };
 
@@ -29,7 +29,7 @@ namespace RMQServer
                                     basicProperties: null,
                                     body: body);
 
-                Console.WriteLine($" [x] Sent ");
+                //Console.WriteLine($" [x] Sent ");
                 counter++;
             }
         }

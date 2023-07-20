@@ -8,6 +8,16 @@ public static class TopicExchangeConsumer
 {
     public static void Consume(IModel channel)
     {
+        channel.ExchangeDeclare("hello-topic-exchange", ExchangeType.Topic);
+
+        channel.QueueDeclare(queue: "hello-topic-queue1",
+                    durable: true,
+                    exclusive: false,
+                    autoDelete: false,
+                    arguments: null);
+
+        channel.QueueBind("hello-topic-queue1", "hello-topic-exchange", "key.*");
+
         var consumer = new EventingBasicConsumer(channel);
 
         consumer.Received += (sender, e) =>

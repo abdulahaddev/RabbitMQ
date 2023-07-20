@@ -10,7 +10,7 @@ namespace RMQServer
             using var connection = factory.CreateConnection();
             using var channel = connection.CreateModel();
 
-            DeadLetterExchangePublisher.Publish(channel);
+            TopicExchangePublisher.Publish(channel);
 
             Console.WriteLine("Finised!");
             Console.ReadKey();
